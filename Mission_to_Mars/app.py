@@ -6,9 +6,10 @@ import os
 
 # Create an instance of Flask
 app = Flask(__name__)
-
-# Use PyMongo to establish Mongo connection
-mongo = PyMongo(app, uri="mongodb://localhost:27017/mars_info")
+app.config["MONGO_URI"] = "mongodb://localhost:27017/mars_info"
+# # Use PyMongo to establish Mongo connection
+# mongo = PyMongo(app, uri="mongodb://localhost:27017/mars_info")
+mongo = PyMongo(app)
 
 @app.route("/")
 def home(): 
@@ -24,19 +25,23 @@ def home():
 def scrape(): 
 
     # Run scrapped functions
-    mars_info = mongo.db.mars_info
-    mars_data = scrape_mars.scrape()
-    mars_info.update({}, mars_data, upsert=True)
-    return redirect("/", code=302)
     # mars_info = mongo.db.mars_info
-    # mars_data = scrape_mars.scrape_mars_news()
-    # mars_data = scrape_mars.scrape_mars_image()
-    # mars_data = scrape_mars.scrape_mars_facts()
-    # mars_data = scrape_mars.scrape_mars_weather()
-    # mars_data = scrape_mars.scrape_mars_hemispheres()
+    # mars_data = scrape_mars.scrape()
     # mars_info.update({}, mars_data, upsert=True)
-
     # return redirect("/", code=302)
+    mars_info = mongo.db.mars_info
+    mars_data = scrape_mars.scrape_mars_news()
+    print(mars_data)
+    mars_data = scrape_mars.scrape_mars_image()
+    print(mars_data)
+    mars_data = scrape_mars.scrape_mars_facts()
+    print(mars_data)
+    # mars_data = scrape_mars.scrape_mars_weather()
+    mars_data = scrape_mars.scrape_mars_hemispheres()
+    print(mars_data)
+    mars_info.update({}, mars_data, upsert=True)
+
+    return redirect("/", code=302)
 
 if __name__ == "__main__": 
     app.run(debug= True)

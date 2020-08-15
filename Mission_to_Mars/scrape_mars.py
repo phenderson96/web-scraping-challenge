@@ -12,7 +12,8 @@ def init_browser():
 
 	# Linux users
 	executable_path = {'executable_path': '/usr/bin/chromedriver'}
-	browser = Browser('chrome', **executable_path, headless=False)
+	browser = Browser('chrome', **executable_path, headless=False) 
+	return browser
 
 # Create dictionary for returning mars information after scraping
 mars_info = {}
@@ -44,14 +45,13 @@ def scrape_mars_news():
 		mars_info['news_paragraph'] = article_p
 		
 		return mars_info
-	
+	except:
+		pass
 	finally:
-	
 		browser.quit()
 	
 # Mars Image Scraping from JPL Page
 def scrape_mars_image():
-
 	try:
 	
 		#initialize browser
@@ -83,9 +83,9 @@ def scrape_mars_image():
 		mars_info['featured_image_url'] = featured_image_url
 		
 		return mars_info
-	
+	except:
+		pass
 	finally:
-		
 		browser.quit()
 		
 		
@@ -169,7 +169,7 @@ def scrape_mars_hemispheres():
 		# Return mars_data dictionary
 		
 		return mars_info
-	
+	except:
+		pass
 	finally:
-		
 		browser.quit()
